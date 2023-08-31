@@ -184,8 +184,9 @@ namespace RosSharp.RosBridgeClient
             Send(serviceCall);
             return id;
         }
-        public Tout CallServiceAndWait<Tin, Tout>(string service, Tin serviceArguments, int timeout = 3000) where Tin : Message where Tout : Message
+        public async Task<Tout> CallServiceAndWait<Tin, Tout>(string service, Tin serviceArguments, double timeout = 3000) where Tin : Message where Tout : Message
         {
+            Console.WriteLine($"RosSocket call service {service},Request:{serviceArguments}");
             Message _response = null;
             bool reply = false;
             ServiceResponseHandler<Tout> responseHandler = (response) =>
@@ -201,12 +202,13 @@ namespace RosSharp.RosBridgeClient
             CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(timeout));
             while (!reply)
             {
+                await Task.Delay(1);
                 if (cts.IsCancellationRequested)
                     break;
-                Thread.Sleep(1);
             }
             if (reply)
             {
+                Console.WriteLine($"RosSocket call service {service}, reply : {(Tout)_response}");
                 return (Tout)_response;
             }
             else
