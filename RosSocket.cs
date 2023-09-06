@@ -186,7 +186,6 @@ namespace RosSharp.RosBridgeClient
         }
         public async Task<Tout> CallServiceAndWait<Tin, Tout>(string service, Tin serviceArguments, double timeout = 3000) where Tin : Message where Tout : Message
         {
-            Console.WriteLine($"RosSocket call service {service},Request:{serviceArguments}");
             Message _response = null;
             bool reply = false;
             ServiceResponseHandler<Tout> responseHandler = (response) =>
@@ -208,7 +207,6 @@ namespace RosSharp.RosBridgeClient
             }
             if (reply)
             {
-                Console.WriteLine($"RosSocket call service {service}, reply : {(Tout)_response}");
                 return (Tout)_response;
             }
             else
