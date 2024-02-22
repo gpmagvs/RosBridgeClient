@@ -165,6 +165,20 @@ namespace RosSharp.RosBridgeClient.Actionlib
                     PublishResult();
                     OnGoalSucceeded();
                     break;
+                case ActionStatus.PENDING:
+                    UpdateAndPublishStatus(ActionStatus.SUCCEEDED, text);
+                    if (result != null)
+                    {
+                        action.action_result.result = result;
+                    }
+                    PublishResult();
+                    OnGoalSucceeded();
+                    break;
+                case ActionStatus.ABORTED:
+                    UpdateAndPublishStatus(ActionStatus.SUCCEEDED, text);
+                    PublishResult();
+                    OnGoalSucceeded();
+                    break;
                 default:
                     log("Goal cannot succeed under current state: " + actionStatus.ToString() + ". Ignored");
                     break;
@@ -182,6 +196,10 @@ namespace RosSharp.RosBridgeClient.Actionlib
                     break;
                 case ActionStatus.PREEMPTING:
                     UpdateAndPublishStatus(ActionStatus.ABORTED, text);
+                    OnGoalAborted();
+                    break;
+                case ActionStatus.PENDING:
+                    UpdateAndPublishStatus(ActionStatus.ACTIVE, text);
                     OnGoalAborted();
                     break;
                 default:
