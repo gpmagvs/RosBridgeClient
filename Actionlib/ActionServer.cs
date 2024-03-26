@@ -118,7 +118,7 @@ namespace RosSharp.RosBridgeClient.Actionlib
                     OnGoalPreempting();
                     break;
                 default:
-                    log("Goal cannot be set to be active under current state: " + actionStatus.ToString() + ". Ignored");
+                    ////log("Goal cannot be set to be active under current state: " + actionStatus.ToString() + ". Ignored");
                     break;
             }
         }
@@ -180,7 +180,7 @@ namespace RosSharp.RosBridgeClient.Actionlib
                     OnGoalSucceeded();
                     break;
                 default:
-                    log("Goal cannot succeed under current state: " + actionStatus.ToString() + ". Ignored");
+                    //log("Goal cannot succeed under current state: " + actionStatus.ToString() + ". Ignored");
                     break;
             }
         }
