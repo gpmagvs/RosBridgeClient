@@ -2,8 +2,36 @@
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-		<AssemblyVersion>1.4.0</AssemblyVersion>
-		<FileVersion>1.4.0</FileVersion>
+		<AssemblyVersion>1.4.1</AssemblyVersion>
+		<FileVersion>1.4.1</FileVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<ShouldCreateLogs>True</ShouldCreateLogs>
+		<AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
+		<UpdateAssemblyVersion>True</UpdateAssemblyVersion>
+		<UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
+		<UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
+		<AssemblyVersionSettings>None.None.None.None</AssemblyVersionSettings>
+		<UpdatePackageVersion>False</UpdatePackageVersion>
+		<AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
+		<UpdateAssemblyFileVersion>True</UpdateAssemblyFileVersion>
+		<InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
+		<AssemblyFileVersionSettings>None.None.None.None</AssemblyFileVersionSettings>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<ShouldCreateLogs>True</ShouldCreateLogs>
+		<AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
+		<UpdateAssemblyVersion>True</UpdateAssemblyVersion>
+		<UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
+		<UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
+		<AssemblyVersionSettings>None.None.None.None</AssemblyVersionSettings>
+		<UpdatePackageVersion>False</UpdatePackageVersion>
+		<AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
+			  <UpdateAssemblyFileVersion>True</UpdateAssemblyFileVersion>
+<InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
+	  <AssemblyFileVersionSettings>None.None.None.None</AssemblyFileVersionSettings>
 	</PropertyGroup>
 
 	<ItemGroup>
