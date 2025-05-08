@@ -186,32 +186,38 @@ namespace RosSharp.RosBridgeClient
         }
         public async Task<Tout> CallServiceAndWait<Tin, Tout>(string service, Tin serviceArguments, double timeout = 3000) where Tin : Message where Tout : Message
         {
-            Message _response = null;
-            bool reply = false;
-            ServiceResponseHandler<Tout> responseHandler = (response) =>
-            {
-                _response = response;
-                reply = true;
-            };
-            string id = GetUnusedCounterID(ServiceConsumers, service);
-            Communication serviceCall;
-            ServiceConsumers.TryAdd(id, new ServiceConsumer<Tin, Tout>(id, service, new ServiceResponseHandler<Tout>(responseHandler), out serviceCall, serviceArguments));
-            Send(serviceCall);
+            CancellationTokenSource cts = new CancellationTokenSource();
 
-            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(timeout));
-            while (!reply)
+            try
             {
-                await Task.Delay(1);
-                if (cts.IsCancellationRequested)
-                    break;
+                Message _response = null;
+                ServiceResponseHandler<Tout> responseHandler = (response) =>
+                {
+                    _response = response;
+                    cts?.Cancel();
+                };
+                string id = GetUnusedCounterID(ServiceConsumers, service);
+                Communication serviceCall;
+                ServiceConsumers.TryAdd(id, new ServiceConsumer<Tin, Tout>(id, service, new ServiceResponseHandler<Tout>(responseHandler), out serviceCall, serviceArguments));
+                Send(serviceCall);
+
+                try
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(timeout), cts.Token);
+                }
+                catch (TaskCanceledException)
+                {
+                    return _response as Tout;
+                }
+                return null;
             }
-            if (reply)
-            {
-                return (Tout)_response;
-            }
-            else
+            catch (Exception)
             {
                 return null;
+            }
+            finally
+            {
+                cts?.Dispose();
             }
         }
 
